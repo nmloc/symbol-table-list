@@ -16,16 +16,17 @@ void SymbolTable::insert(string id, string type) {
 
 void SymbolTable::assign(string id, string value) {
 	regex rNum("[0-9]+");
-	regex rString("['][ a-zA-Z0-9]+[']");
+	regex rString("['][ a-zA-Z0-9]*[']");
 	regex rId("[a-z][_a-zA-Z0-9]*");
 	string error = "ASSIGN " + id + " " + value;
-	Symbol *temp = checkId_STL(id);
+	Symbol *checkId = checkId_STL(id);
+	Symbol *checkValue = checkId_STL(value);
 	if (regex_match(value, rNum)) {
-		if (temp == nullptr)	{
+		if (checkId == nullptr)	{
 			throw Undeclared(error);
 		}
 		else {
-			if (temp->type == "number") {
+			if (checkId->type == "number") {
 				cout << "success" << endl;
 			}
 			else {
@@ -34,11 +35,11 @@ void SymbolTable::assign(string id, string value) {
 		}
 	}
 	else if (regex_match(value, rString)) {
-		if (temp == nullptr) {
+		if (checkId == nullptr) {
 			throw Undeclared(error);
 		}
 		else {
-			if (temp->type == "string") {
+			if (checkId->type == "string") {
 				cout << "success" << endl;
 			}
 			else {
@@ -46,6 +47,26 @@ void SymbolTable::assign(string id, string value) {
 			}
 		}
 	}
+	else if (regex_match(value, rId)) {
+		if (checkValue == nullptr) {
+			throw Undeclared(value);
+		}
+		else {
+			if (checkId == nullptr) {
+				throw Undeclared(id);
+			}
+			else {
+				if (checkValue->type == checkId->type) {
+					cout << "success" << endl;
+				}
+				else {
+					throw TypeMismatch(error);
+				}
+			}
+		}
+	}
+	else
+		throw TypeMismatch(error);
 }
 void SymbolTable::begin() {
 	this->addTailTable();

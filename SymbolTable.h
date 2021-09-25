@@ -67,7 +67,6 @@ public:
 
 	void popHead() {
 			if (headSymbol) {
-					Symbol *temp = headSymbol;
 					headSymbol = headSymbol->next;
 					size--;
 			}

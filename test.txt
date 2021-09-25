@@ -1,10 +1,5 @@
 INSERT x number
-INSERT y string
-BEGIN
-INSERT x number
-BEGIN
-INSERT y string
-END
-LOOKUP x
-LOOKUP y
-END
+INSERT y number
+ASSIGN x 15
+ASSIGN x y
+PRINT
